@@ -56,11 +56,12 @@ function Cart() {
           ))}
 
           <h2>Total: Rs {total}</h2>
-          <a href="/checkout">
-  <Link to="/checkout" className="checkout-link">
-Proceed To Checkout
-</Link>
-</a>
+          <Link
+              to="/checkout"
+              className="checkout-link"
+            >
+              Proceed To Checkout
+            </Link>
         </>
       )}
     </div>

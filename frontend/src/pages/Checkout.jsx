@@ -79,6 +79,7 @@ function Checkout() {
     // Save Order Items
     const orderItems = cartItems.map((item) => ({
       order_id: orderId,
+      product_name: item.name,
       quantity: item.quantity,
       unit_price: item.price,
     }));
@@ -90,14 +91,24 @@ function Checkout() {
 
     if (orderItemsError) throw orderItemsError;
 
-    clearCart();
-    
-    navigate("/order-success");
+    const successData = {
+      orderId,
+          customer: formData,
+          items: cartItems,
+          total,
+        };
+
+        navigate("/order-success", {
+          state: successData,
+        });
+
+         clearCart();
 
   } catch (error) {
-  console.error(error);
+  console.error("FULL ERROR:", error);
 
   alert(
+    error?.message ||
     JSON.stringify(error, null, 2)
   );
 }
