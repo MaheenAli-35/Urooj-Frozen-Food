@@ -484,3 +484,15 @@ margin: 10px 0;
   font-size: 28px;
   font-weight: bold;
 }
+
+.total-card {
+  background: #e3f2fd;
+}
+
+.pending-card {
+  background: #fff3cd;
+}
+
+.delivered-card {
+  background: #d4edda;
+}
