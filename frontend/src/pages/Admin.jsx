@@ -4,6 +4,7 @@ import { supabase } from "../supabase";
 function Admin() {
   const [orders, setOrders] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
+  const [filter, setFilter] = useState("All");
 
   useEffect(() => {
     fetchOrders();
@@ -68,14 +69,117 @@ async function fetchOrderItems() {
   }
 }
 
+const filteredOrders = orders.filter(
+  (order) =>
+    filter === "All" ||
+    order.status === filter
+);
+
+const totalOrders = orders.length;
+
+const pendingOrders = orders.filter(
+  (order) => order.status === "Pending"
+).length;
+
+const deliveredOrders = orders.filter(
+  (order) => order.status === "Delivered"
+).length;
+
+
   return (
     <div className="admin-page">
       <h1>Admin Dashboard</h1>
 
+      <div className="stats-container">
+
+  <div className="stat-card">
+    <h3>Total Orders</h3>
+    <p>{totalOrders}</p>
+  </div>
+
+  <div className="stat-card">
+    <h3>Pending</h3>
+    <p>{pendingOrders}</p>
+  </div>
+
+  <div className="stat-card">
+    <h3>Delivered</h3>
+    <p>{deliveredOrders}</p>
+  </div>
+
+</div>
+
+      <div className="filter-buttons">
+
+  <button
+    className={
+      filter === "All"
+        ? "active-filter"
+        : ""
+    }
+    onClick={() => setFilter("All")}
+  >
+    All
+  </button>
+
+  <button
+    className={
+      filter === "Pending"
+        ? "active-filter"
+        : ""
+    }
+    onClick={() => setFilter("Pending")}
+  >
+    Pending
+  </button>
+
+  <button
+    className={
+      filter === "Preparing"
+        ? "active-filter"
+        : ""
+    }
+    onClick={() => setFilter("Preparing")}
+  >
+    Preparing
+  </button>
+
+  <button
+    className={
+      filter === "Out For Delivery"
+        ? "active-filter"
+        : ""
+    }
+    onClick={() =>
+      setFilter("Out For Delivery")
+    }
+  >
+    Out For Delivery
+  </button>
+
+  <button
+    className={
+      filter === "Delivered"
+        ? "active-filter"
+        : ""
+    }
+    onClick={() => setFilter("Delivered")}
+  >
+    Delivered
+  </button>
+
+</div>
+
       {orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (
-        orders.map((order) => (
+       orders
+          .filter(
+            (order) =>
+              filter === "All" ||
+              order.status === filter
+          )
+          .map((order) => (
           <div
             key={order.id}
             className="order-card"
