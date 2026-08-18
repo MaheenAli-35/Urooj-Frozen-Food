@@ -85,27 +85,46 @@ const deliveredOrders = orders.filter(
   (order) => order.status === "Delivered"
 ).length;
 
+const preparingOrders = orders.filter(
+  (order) => order.status === "Preparing"
+).length;
+
+const outForDeliveryOrders = orders.filter(
+  (order) => order.status === "Out For Delivery"
+).length;
 
   return (
     <div className="admin-page">
-      <h1>Admin Dashboard</h1>
+      <h1 className="admin-title">
+  Admin Dashboard
+</h1>
 
       <div className="stats-container">
 
-  <div className="stat-card">
-    <h3>Total Orders</h3>
-    <p>{totalOrders}</p>
-  </div>
+  <div className="stat-card total-card">
+  <h3>Total Orders</h3>
+  <p>{totalOrders}</p>
+</div>
 
-  <div className="stat-card">
-    <h3>Pending</h3>
-    <p>{pendingOrders}</p>
-  </div>
+<div className="stat-card pending-card">
+  <h3>Pending</h3>
+  <p>{pendingOrders}</p>
+</div>
 
-  <div className="stat-card">
-    <h3>Delivered</h3>
-    <p>{deliveredOrders}</p>
-  </div>
+<div className="stat-card delivered-card">
+  <h3>Delivered</h3>
+  <p>{deliveredOrders}</p>
+</div>
+
+<div className="stat-card preparing-card">
+  <h3>Preparing</h3>
+  <p>{preparingOrders}</p>
+</div>
+
+<div className="stat-card delivery-card">
+  <h3>Out For Delivery</h3>
+  <p>{outForDeliveryOrders}</p>
+</div>
 
 </div>
 
@@ -170,25 +189,26 @@ const deliveredOrders = orders.filter(
 
 </div>
 
-      {orders.length === 0 ? (
-        <p>No orders found.</p>
-      ) : (
-       orders
-          .filter(
-            (order) =>
-              filter === "All" ||
-              order.status === filter
-          )
-          .map((order) => (
+      {filteredOrders.length === 0 ? (
+  <p>No orders found.</p>
+) : (
+  <div className="orders-grid">
+    {filteredOrders.map((order) => (
           <div
             key={order.id}
             className="order-card"
           >
             <h3>Order #{order.id}</h3>
 
-            <p>
-              Total: Rs {order.total_amount}
-            </p>
+              <p className="order-date">
+                {new Date(
+                  order.created_at
+                ).toLocaleDateString()}
+              </p>
+
+              <p>
+                Total: Rs {order.total_amount}
+              </p>
 
             <p>
                 Status:
@@ -253,8 +273,9 @@ const deliveredOrders = orders.filter(
                     </div>
                 ))}
           </div>
-        ))
-      )}
+                ))}
+      </div>
+    )}
     </div>
   );
 }
